@@ -1,0 +1,40 @@
+﻿@model List<Urun>
+@{
+    ViewData["Title"] = "Ürünler";
+}
+
+<a asp-controller="Urunler" asp-action="Yeni">Yeni Ürün</a>
+
+<table class="table table-admin">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Id</th>
+            <th>Ad</th>
+            <th>Fiyat</th>
+            <th>Kategori</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+         {
+             <tr>
+                <td class="align-middle" ><img src="~/img/urunler/@(item.ResimYolu ?? "resimyok.png")" width="100" /></td>
+                <td class="align-middle">@item.Id</td>
+                <td class="align-middle">@item.Ad</td>
+                <td class="align-middle">₺@item.Fiyat.ToString("n2")</td>
+                <td class="align-middle">@item.Kategori.Ad</td>
+                 <td>
+                     <form class="d-inline-block" asp-controller="Urunler" asp-action="Sil" method="post" 
+                           onsubmit="return confirm('Ürünü kaldırmak istediğinize emin misiniz?');">
+                         <input type="hidden" name="Id" value="@item.Id" />
+                         <button class="btn btn-danger">Sil</button>
+                     </form>
+
+                     <a class="btn btn-success" asp-controller="Urunler" asp-action="Duzenle" asp-route-id="@item.Id">Düzenle</a>
+                 </td>
+             </tr>
+         }
+    </tbody>
+</table>
